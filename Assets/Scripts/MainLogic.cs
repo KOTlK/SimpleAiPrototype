@@ -19,6 +19,17 @@ public class MainLogic : MonoBehaviour
         _factory.Initialize();
     }
 
+    private void Update()
+    {
+        if (EntitiesPool.Pool.GetCachedEntities().Count > 0)
+        {
+            foreach(GameObject i in EntitiesPool.Pool.GetCachedEntities().ToArray()) // using ToArray() to create copy of CachedEntities list to exclude situation when list was modified and InvalidOperationException throws
+            {
+                _factory.SpawnEntity(i, GroundRenderer.Renderer.GetRandomPointOnGround());
+            }
+        }
+    }
+
 
     private void OnDisable()
     {

@@ -407,6 +407,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa05f98fa187cb4fbf2624951fb7bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
+  isDead: 0
   CurrentTarget: {fileID: 0}
   Type: 0
   TextHP: {fileID: 1636428371921110600}
@@ -424,5 +426,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0

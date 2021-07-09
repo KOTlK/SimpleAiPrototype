@@ -6,7 +6,7 @@ public class EntityMover
 {
     private readonly Transform _entity;
     private readonly float _speed;
-    private readonly float _nearDistance = 2f;
+    private readonly float _nearDistance = 1f;
     private Vector3 _currentDestination;
 
     public EntityMover(Transform entity, float speed)
@@ -49,6 +49,7 @@ public class EntityMover
 
     public IEnumerator MoveTo(Vector3 target)
     {
+
         while (DestinationReached(_entity, target) == false)
         {
             _entity.LookAt(target);
@@ -56,6 +57,16 @@ public class EntityMover
             yield return null;
         }
     }
+
+    /*public void MoveTo(Vector3 target)
+    {
+
+        if (DestinationReached(_entity, target) == false)
+        {
+            _entity.LookAt(target);
+            _entity.transform.position = Vector3.MoveTowards(_entity.transform.position, target, _speed * Time.deltaTime);
+        }
+    }*/
 
 
     /*public void MoveTo(float x, float y, float z)
@@ -74,7 +85,7 @@ public class EntityMover
 
     }*/
 
-    
+
 
     private bool DestinationReached(Transform entity, Vector3 target)
     {

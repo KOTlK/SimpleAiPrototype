@@ -46,7 +46,6 @@ public class TargetFinder
         while (_entity.CurrentTarget == null)
         {
             _entity.CurrentTarget = SearchForTarget();
-            Debug.Log("Looking for target...");
             yield return new WaitForSeconds(cooldown);
         }
     }

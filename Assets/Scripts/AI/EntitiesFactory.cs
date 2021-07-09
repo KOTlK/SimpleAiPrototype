@@ -51,12 +51,24 @@ public class EntitiesFactory
                 {
                     Pool.AddActive(i);
                     i.transform.position = position;
+                    i.transform.rotation = Quaternion.identity;
                     i.SetActive(true);
                     break;
                 }
             }
         }
         
+    }
+
+    public void SpawnEntity(GameObject entity, Vector3 position)
+    {
+        if (Pool.GetCachedEntities().Count > 0)
+        {
+            Pool.AddActive(entity);
+            entity.transform.position = position;
+            entity.transform.rotation = Quaternion.identity;
+            entity.SetActive(true);                
+        }
     }
 
     

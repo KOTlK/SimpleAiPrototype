@@ -5,8 +5,11 @@ using TMPro;
 
 public class Human : MonoBehaviour, IDamagable
 {
+    public string Name;
     public delegate void HpUpdate();
     public event HpUpdate OnHPUpdate;
+    public event HpUpdate OnEntityDeath;
+    public bool isDead;
 
     public Human CurrentTarget;
     public TargetFinder TargetFinder;
@@ -24,51 +27,57 @@ public class Human : MonoBehaviour, IDamagable
     protected const int MinHp = 0;
     protected int CurrentHp;
     protected HpUpdater HpUpdater;
-    protected bool isDead;
+
+    private RandomNameGenerator _randomName;
 
 
-    private void Start()
+    private void Awake()
     {
-        CurrentHp = MaxHp;
-        HpUpdater = new HpUpdater(this, TextHP);
+        OnAwake();
     }
 
+    
     private void OnEnable()
     {
-        isDead = false;
         CurrentHp = MaxHp;
-        OnHPUpdate += HpUpdater.UpdateHp;
-        OnHPUpdate?.Invoke();
+        BaseOnEnable();
+    }
+    private void Update()
+    {
+        BaseUpdate();
     }
 
     private void OnDisable()
     {
-        OnHPUpdate -= HpUpdater.UpdateHp;
+        BaseOnDisable();
     }
 
-    public IEnumerator AttackTarget(float cooldown)
+    public void ResetTarget()
     {
-        while (CurrentTarget.GetCurrentHp() >= 0)
+        CurrentTarget = null;
+    }
+
+    public IEnumerator AttackTarget(Human target)
+    {
+        while (true)
         {
-            CurrentTarget.ApplyDamage(Damage);
-            yield return new WaitForSeconds(cooldown);
+            target.ApplyDamage(Damage);
+            yield return new WaitForSeconds(1f);
         }
+
+        
+        
     }
 
 
     public void ApplyDamage(int damage)
     {
-        Debug.Log(CurrentHp);
         CurrentHp -= damage;
-        Debug.Log(CurrentHp);
-        OnHPUpdate?.Invoke();
-        if (CurrentHp <= MinHp)
+        if (CurrentHp <= 0)
         {
             Die();
         }
-
-        
-        
+        OnHPUpdate?.Invoke();
     }
 
     public int GetCurrentHp()
@@ -76,15 +85,51 @@ public class Human : MonoBehaviour, IDamagable
         return CurrentHp;
     }
 
+    public State GetCurrentState()
+    {
+        return StateMachine.CurrentState;
+    }
+
+
+    protected void OnAwake()
+    {
+        _randomName = new RandomNameGenerator();
+        Name = _randomName.GenerateWord();
+        CurrentHp = MaxHp;
+        HpUpdater = new HpUpdater(this, TextHP);
+        HpUpdater = new HpUpdater(this, TextHP);
+
+        StateMachine = new StateMachine();
+        Patrol = new Patrol(StateMachine, this);
+        Disabled = new Disabled(StateMachine, this);
+        Attack = new Attack(StateMachine, this);
+
+    }
+
+    protected void BaseOnEnable()
+    {
+        isDead = false;
+        CurrentHp = MaxHp;
+        OnHPUpdate += HpUpdater.UpdateHp;
+        OnHPUpdate?.Invoke();
+    }
+
+    protected void BaseOnDisable()
+    {
+        isDead = true;
+        OnHPUpdate -= HpUpdater.UpdateHp;
+    }
+
+    protected void BaseUpdate()
+    {
+        HpUpdater.UpdateRotation();
+    }
 
     private void Die()
     {
         isDead = true;
+        OnEntityDeath?.Invoke();
         EntitiesPool.Pool.RemoveActive(this.gameObject);
     }
 
-    public void DebugShit()
-    {
-        TextHP.text = $"υσι";
-    }
 }

@@ -38,6 +38,7 @@ public class EntitiesPool : MonoBehaviour
         entity.SetActive(false);
         _activeEntities.Remove(entity);
         _cachedEntities.Add(entity);
+        entity.transform.position = new Vector3(9999, 9999, 9999);
     }
 
     public List<GameObject> GetCachedEntities()

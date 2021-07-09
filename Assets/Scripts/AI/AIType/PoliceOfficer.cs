@@ -9,21 +9,15 @@ public class PoliceOfficer : Human
     private readonly EntityType[] _enemies = { EntityType.Villain };
 
 
-
     private void Awake()
     {
+        OnAwake();
         Mover = new EntityMover(this.transform, _movementSpeed);
-        StateMachine = new StateMachine();
-        HpUpdater = new HpUpdater(this, TextHP);
-
-        Patrol = new Patrol(StateMachine, this);
-        Disabled = new Disabled(StateMachine, this);
-        Attack = new Attack(StateMachine, this);
-
         TargetFinder = new TargetFinder(_enemies, this, _searchDistance);
-        CurrentHp = MaxHp;
+        Damage = 30;
         StateMachine.Init(Patrol);
     }
+
 
 
     private void Update()
@@ -32,23 +26,21 @@ public class PoliceOfficer : Human
         {
             StateMachine.CurrentState.UpdateLogic();
         }
-        HpUpdater.OnUpdate();
+        BaseUpdate();
         
     }
 
 
     private void OnEnable()
     {
-        isDead = false;
+        BaseOnEnable();
         StateMachine.ChangeState(Patrol);
-        CurrentHp = MaxHp;
-        OnHPUpdate += HpUpdater.UpdateHp;
     }
 
     private void OnDisable()
     {
+        BaseOnDisable();
         StateMachine.ChangeState(Disabled);
-        OnHPUpdate -= HpUpdater.UpdateHp;
     }
 
 }

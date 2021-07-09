@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc5305295c69314d837d7bb33dfad51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
+  isDead: 0
   CurrentTarget: {fileID: 0}
   Type: 3
   TextHP: {fileID: 5039426345103979887}
@@ -63,7 +65,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &2984445931580655454
 GameObject:
@@ -163,7 +165,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Hp - '
+  m_text: Hp - 100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

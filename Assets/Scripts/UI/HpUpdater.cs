@@ -13,7 +13,7 @@ public class HpUpdater
         _text = text;
     }
 
-    public void OnUpdate()
+    public void UpdateRotation()
     {
         RotateHp();
     }
@@ -22,7 +22,6 @@ public class HpUpdater
     public void UpdateHp()
     {
         _text.text = $"Hp - {_entity.GetCurrentHp()}";
-        Debug.Log(_entity.GetCurrentHp());
     }
 
     private void RotateHp()

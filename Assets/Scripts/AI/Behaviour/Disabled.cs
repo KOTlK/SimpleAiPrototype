@@ -12,6 +12,8 @@ public class Disabled : State
     public override void Enter()
     {
         Entity.StopAllCoroutines();
+        Entity.ResetTarget();
+
     }
 
     public override void Exit()

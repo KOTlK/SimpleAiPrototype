@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84da46d08a8b3c34f9db4f921d2017e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
+  isDead: 0
   CurrentTarget: {fileID: 0}
   Type: 1
   TextHP: {fileID: 6648072551063748791}
@@ -63,7 +65,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &4110712466398161991
 GameObject:
