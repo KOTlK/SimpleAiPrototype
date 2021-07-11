@@ -23,7 +23,7 @@ public class CameraPointer : MonoBehaviour
                 {
                     _currentHpText.text = $"Current Hp - {GetHp(human)}";
                     _currentStateText.text = $"Current state - {GetState(human)}";
-                    _currentTargetText.text = $"Current target - {GetName(human.CurrentTarget)}";
+                    _currentTargetText.text = $"Current target - {GetTargetName(human)}";
                     _name.text = $"Name: {GetName(human)}";
                 }
             }
@@ -39,6 +39,17 @@ public class CameraPointer : MonoBehaviour
         else 
         { 
             return "NoName"; 
+        }
+    }
+
+    private string GetTargetName(Human entity)
+    {
+        if (entity.CurrentTarget != null)
+        {
+            return entity.CurrentTarget.Name;
+        } else
+        {
+            return "No target";
         }
     }
 

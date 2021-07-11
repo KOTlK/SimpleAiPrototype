@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 386115841168424393}
   - component: {fileID: -8800091455644459411}
   - component: {fileID: -6891224766773830475}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Villain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2572736160043049719}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 991503362259736314}
   - component: {fileID: 6716315012188714910}
   - component: {fileID: 6648072551063748791}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 170974027000433480}
   - component: {fileID: 5660759359968361185}
   - component: {fileID: 2348656405264786014}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

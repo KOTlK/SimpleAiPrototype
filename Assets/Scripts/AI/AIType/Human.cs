@@ -6,9 +6,11 @@ using TMPro;
 public class Human : MonoBehaviour, IDamagable
 {
     public string Name;
+    public delegate void DeathCounterUpdate(Human sender);
     public delegate void HpUpdate();
     public event HpUpdate OnHPUpdate;
     public event HpUpdate OnEntityDeath;
+    public event DeathCounterUpdate OnDeath;
     public bool isDead;
 
     public Human CurrentTarget;
@@ -19,6 +21,8 @@ public class Human : MonoBehaviour, IDamagable
     public State Patrol;
     public State Disabled;
     public State Attack;
+    public State MovingToTarget;
+    public State Walking;
 
     [SerializeField] protected TextMeshPro TextHP;
     protected int Damage;
@@ -27,6 +31,7 @@ public class Human : MonoBehaviour, IDamagable
     protected const int MinHp = 0;
     protected int CurrentHp;
     protected HpUpdater HpUpdater;
+    protected DeathStatistic Statistics;
 
     private RandomNameGenerator _randomName;
 
@@ -64,9 +69,6 @@ public class Human : MonoBehaviour, IDamagable
             target.ApplyDamage(Damage);
             yield return new WaitForSeconds(1f);
         }
-
-        
-        
     }
 
 
@@ -103,7 +105,7 @@ public class Human : MonoBehaviour, IDamagable
         Patrol = new Patrol(StateMachine, this);
         Disabled = new Disabled(StateMachine, this);
         Attack = new Attack(StateMachine, this);
-
+        MovingToTarget = new MovingToTarget(StateMachine, this);
     }
 
     protected void BaseOnEnable()
@@ -112,16 +114,22 @@ public class Human : MonoBehaviour, IDamagable
         CurrentHp = MaxHp;
         OnHPUpdate += HpUpdater.UpdateHp;
         OnHPUpdate?.Invoke();
+        Statistics.OnEnable();
     }
 
     protected void BaseOnDisable()
     {
         isDead = true;
         OnHPUpdate -= HpUpdater.UpdateHp;
+        Statistics.OnDisable();
     }
 
     protected void BaseUpdate()
     {
+        if (StateMachine.CurrentState != null)
+        {
+            StateMachine.CurrentState.UpdateLogic();
+        }
         HpUpdater.UpdateRotation();
     }
 
@@ -129,6 +137,7 @@ public class Human : MonoBehaviour, IDamagable
     {
         isDead = true;
         OnEntityDeath?.Invoke();
+        OnDeath?.Invoke(this);
         EntitiesPool.Pool.RemoveActive(this.gameObject);
     }
 

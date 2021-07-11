@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class PoliceOfficer : Human
 {
-    private float _searchDistance = 30f;    
-    private readonly float _movementSpeed = 5f;
+    private readonly float _searchDistance = 40f;    
+    private readonly float _movementSpeed = 8f;
     private readonly EntityType[] _enemies = { EntityType.Villain };
 
 
     private void Awake()
     {
         OnAwake();
-        Mover = new EntityMover(this.transform, _movementSpeed);
+        Mover = new EntityMover(this, _movementSpeed);
         TargetFinder = new TargetFinder(_enemies, this, _searchDistance);
+        Statistics = new DeathStatistic(this);
         Damage = 30;
         StateMachine.Init(Patrol);
     }
@@ -22,10 +23,7 @@ public class PoliceOfficer : Human
 
     private void Update()
     {
-        if (StateMachine.CurrentState != null)
-        {
-            StateMachine.CurrentState.UpdateLogic();
-        }
+        
         BaseUpdate();
         
     }

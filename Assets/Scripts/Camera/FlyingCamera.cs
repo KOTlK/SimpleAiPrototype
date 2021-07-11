@@ -10,10 +10,10 @@ public class FlyingCamera : MonoBehaviour
     private float _sensitivity = 10f;
     private float _verticalRotationOffset = 0f;
     private float _horizontalRotationOffset = 0f;
-    private readonly float _maxVerticalRotationAngle = 89;
-    private float _defaultFOV = 60;
-    private float _increasedFOV = 65;
-    private float _fovChangingMult = 6f;
+    private readonly float _maxVerticalRotationAngle = 89f;
+    private float _defaultFOV = 60f;
+    private float _increasedFOV = 65f;
+    private float _fovChangingMult = 10f;
     private CameraInput Input => CameraInput.Input;
 
     private void Awake()

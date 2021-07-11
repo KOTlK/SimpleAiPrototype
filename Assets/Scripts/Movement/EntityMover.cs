@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class EntityMover
 {
-    private readonly Transform _entity;
+    private readonly Human _entity;
     private readonly float _speed;
-    private readonly float _nearDistance = 1f;
+    private readonly float _nearDistance = 2f;
     private Vector3 _currentDestination;
 
-    public EntityMover(Transform entity, float speed)
+    public EntityMover(Human entity, float speed)
     {
         _entity = entity;
         _speed = speed;
@@ -30,18 +30,18 @@ public class EntityMover
 
     public IEnumerator Patrol(Vector3 startDestinationPoint)
     {
-        if (DestinationReached(_entity, _currentDestination))
+        if (_entity.transform.position.DestinationReached(_currentDestination, _nearDistance))
         {
             _currentDestination = startDestinationPoint;
         }
 
         while (true)
         {
-            if (DestinationReached(_entity, _currentDestination))
+            if (_entity.transform.position.DestinationReached(_currentDestination, _nearDistance))
             {
                 _currentDestination = GroundRenderer.Renderer.GetRandomPointOnGround();
             }
-            _entity.LookAt(_currentDestination);
+            _entity.transform.LookAt(_currentDestination);
             _entity.transform.position = Vector3.MoveTowards(_entity.transform.position, _currentDestination, _speed * Time.deltaTime);
             yield return null;
         }
@@ -50,10 +50,22 @@ public class EntityMover
     public IEnumerator MoveTo(Vector3 target)
     {
 
-        while (DestinationReached(_entity, target) == false)
+        while (_entity.transform.position.DestinationReached(target, _nearDistance) == false)
         {
-            _entity.LookAt(target);
+            _entity.transform.rotation = Quaternion.RotateTowards(_entity.transform.rotation, Quaternion.Euler(target), _speed * Time.deltaTime);
             _entity.transform.position = Vector3.MoveTowards(_entity.transform.position, target, _speed * Time.deltaTime);
+            yield return null;
+        }
+    }
+
+    public IEnumerator MoveToTarget()
+    {
+        Vector3 target = _entity.CurrentTarget.transform.position;
+        while (_entity.transform.position.DestinationReached(target, _nearDistance) == false)
+        {
+            target = _entity.CurrentTarget.transform.position;
+            _entity.transform.LookAt(target);
+            _entity.transform.position += _entity.transform.forward * _speed * Time.deltaTime; 
             yield return null;
         }
     }
@@ -86,19 +98,6 @@ public class EntityMover
     }*/
 
 
-
-    private bool DestinationReached(Transform entity, Vector3 target)
-    {
-        float sqrDistance = (entity.transform.position - target).sqrMagnitude;
-        if (sqrDistance <= _nearDistance * _nearDistance)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
 
 }

@@ -26,7 +26,7 @@ public class Patrol : State
     {
         if (Entity.CurrentTarget != null)
         {
-            StateMachine.ChangeState(Entity.Attack);
+            StateMachine.ChangeState(Entity.MovingToTarget);
         }
     }
 

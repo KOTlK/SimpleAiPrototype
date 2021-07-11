@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Attack : State
 {
-    private float _attackDistance = 7f;
-    private Coroutine _moving;
+    private readonly float _attackDistance = 5f;
     private Coroutine _attacking;
     public Attack(StateMachine stateMachine, Human entity) : base(stateMachine, entity)
     {
@@ -16,7 +15,6 @@ public class Attack : State
     {
         Entity.StopAllCoroutines();
         Entity.CurrentTarget.OnEntityDeath += StopAttacking;
-        _moving = null;
         _attacking = null;
     }
 
@@ -24,25 +22,17 @@ public class Attack : State
     {
         Entity.StopAllCoroutines();
         Entity.CurrentTarget.OnEntityDeath -= StopAttacking;
-        _moving = null;
         _attacking = null;
     }
 
     public override void UpdateLogic()
     {
-        if (_moving == null)
-        {
-            _moving = Entity.StartCoroutine(Entity.Mover.MoveTo(Entity.CurrentTarget.transform.position));
-        }
-
         if ((Entity.transform.position - Entity.CurrentTarget.transform.position).sqrMagnitude <= _attackDistance * _attackDistance)
         {
             if (_attacking == null)
             {
                 StartAttackingCoroutine();
             }
-
-            
         }
 
         if (Entity.CurrentTarget.isDead)
@@ -50,6 +40,13 @@ public class Attack : State
             StopAttacking();
         }
 
+        if (Entity.CurrentTarget != null)
+        {
+            if (Entity.transform.position.SqrDistanceTo(Entity.CurrentTarget.transform.position) > _attackDistance)
+            {
+                StateMachine.ChangeState(Entity.MovingToTarget);
+            }
+        }
     }
 
     private void StopAttacking()
