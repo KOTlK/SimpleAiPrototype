@@ -16,17 +16,6 @@ public class EntityMover
         _currentDestination = _entity.transform.position;
     }
 
-    /*public void MoveTo(Vector3 directionPoint)
-    {
-
-
-        if (DestinationReached(_entity, directionPoint) == false)
-        {
-            _entity.LookAt(directionPoint);
-            _entity.transform.position = Vector3.MoveTowards(_entity.transform.position, directionPoint, _speed * Time.deltaTime);
-        } 
-        
-    }*/
 
     public IEnumerator Patrol(Vector3 startDestinationPoint)
     {
@@ -70,32 +59,6 @@ public class EntityMover
         }
     }
 
-    /*public void MoveTo(Vector3 target)
-    {
-
-        if (DestinationReached(_entity, target) == false)
-        {
-            _entity.LookAt(target);
-            _entity.transform.position = Vector3.MoveTowards(_entity.transform.position, target, _speed * Time.deltaTime);
-        }
-    }*/
-
-
-    /*public void MoveTo(float x, float y, float z)
-    {
-
-        Vector3 direction = new Vector3(x, y, z);
-
-        if (DestinationReached(_entity, direction) == false)
-        {
-            _currentDestination = direction;
-
-            _entity.LookAt(_currentDestination);
-            _entity.transform.position = Vector3.MoveTowards(_entity.transform.position, _currentDestination, _speed * Time.deltaTime);
-        }
-
-
-    }*/
 
 
 
